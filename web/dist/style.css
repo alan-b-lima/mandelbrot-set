@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    gap: 1rem;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr auto;
+    height: 100dvh;
+    padding: 1rem;
+}
+
+main {
+    display: flex;
+    grid-column: span 2;
+    justify-content: center;
+}
+
+canvas {
+    display: block;
+    height: 100%;
+    image-rendering: pixelated;
+    outline: 1px solid #000;
+}
