@@ -2,13 +2,11 @@ package mbset
 
 import (
 	"math"
-	"math/cmplx"
 
 	"github.com/alan-b-lima/mandelbrot-set/src/internal/color"
 )
 
-type MultibrodSet struct {
-	Seed, Power    complex128
+type MandelbrodSet struct {
 	Origin         complex128
 	Scale          float64
 	Width, Height  int
@@ -21,7 +19,7 @@ const (
 	Bound = 2
 )
 
-func (s *MultibrodSet) Generate() {
+func (s *MandelbrodSet) Generate() {
 	if s.Image != nil {
 		return
 	}
@@ -43,20 +41,20 @@ func (s *MultibrodSet) Generate() {
 	}
 }
 
-func (s *MultibrodSet) GeneratePoint(c complex128) (uint8, uint8, uint8) {
-	z := s.Seed
+func (s *MandelbrodSet) GeneratePoint(c complex128) (uint8, uint8, uint8) {
+	var z complex128
 	for i := range s.IterationLimit {
 		if real(z)*real(z)+imag(z)*imag(z) >= Bound*Bound {
 			return ColorFromLimit(i)
 		}
 
-		z = cmplx.Pow(z, s.Power) + c
+		z = z*z + c
 	}
 
 	return 0, 0, 0
 }
 
-func (s *MultibrodSet) MapPoint(x, y int) complex128 {
+func (s *MandelbrodSet) MapPoint(x, y int) complex128 {
 	scale := math.Pow(2, s.Scale)
 	return complex(
 		real(s.Origin)+scale*(float64(x-s.Width>>1)),
@@ -66,7 +64,7 @@ func (s *MultibrodSet) MapPoint(x, y int) complex128 {
 
 func ColorFromLimit(i int) (R, G, B uint8) {
 	return color.HSLToRGB(
-		245*(1-min(float64(i), 25)/25),
+		245*(1-float64(i)/25),
 		1.0,
 		0.5,
 	)

@@ -6,6 +6,10 @@ import (
 
 func HSLToRGB(hue, sat, lum float64) (R, G, B uint8) {
 	hue /= 60
+	if hue < 0 {
+		hue = -hue
+	}
+
 	C := (1 - math.Abs(2*lum-1)) * sat
 	X := C * (1 - math.Abs(math.Mod(hue, 2)-1))
 
@@ -27,3 +31,4 @@ func HSLToRGB(hue, sat, lum float64) (R, G, B uint8) {
 	B = uint8((b + m) * 255)
 	return
 }
+
